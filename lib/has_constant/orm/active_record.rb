@@ -23,12 +23,12 @@ module HasConstant
           end
 
           class_eval do
-            named_scope :by_constant, lambda { |constant,value| { :conditions =>
+            scope :by_constant, lambda { |constant,value| { :conditions =>
               { constant.to_sym => eval("#{self.to_s}.#{constant.pluralize}.index(value)") } } }
-            named_scope "#{singular}_is".to_sym, lambda { |*values| { :conditions =>
+            scope "#{singular}_is".to_sym, lambda { |*values| { :conditions =>
               { singular.to_sym => indexes_for(name, values) }
             } }
-            named_scope "#{singular}_is_not".to_sym, lambda { |*values| { :conditions =>
+            scope "#{singular}_is_not".to_sym, lambda { |*values| { :conditions =>
               ["#{singular} NOT IN (?)", indexes_for(name, values)]
             } }
           end
